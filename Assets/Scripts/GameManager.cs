@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     public Text flipText;
     public Text overallText;
     public Text flipsPerSecondText;
-    public Text RotationSpeedText;
     #endregion
    
 
@@ -37,7 +36,6 @@ public class GameManager : MonoBehaviour
     {
         flipText.text = flips.ToString();
         overallText.text = totalFlips.ToString();
-        RotationSpeedText.text = Flipper.flipRotate.ToString();
 
         if (flipsPerSecTimer >= 0.95f)
         {
