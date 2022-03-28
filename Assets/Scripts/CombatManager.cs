@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class NewsEvents : MonoBehaviour
+public class CombatManager : MonoBehaviour
 {
-    public Text newsText;
-
+    private int clickForce = 1;
+    private int opponentClickForce = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -19,15 +18,4 @@ public class NewsEvents : MonoBehaviour
     {
         
     }
-}
-public enum NewsStates
-{
-    Calm, 
-    Curious, 
-    Scientific,
-    Foreboding,
-    Unsettled, 
-    Fishy, 
-    Fishmageddon, 
-    ItHasEmerged
 }

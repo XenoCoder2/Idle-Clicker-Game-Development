@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ButtonHandler : MonoBehaviour
 {
     public static int flipRate = 1;
-   
+    public GameManager manage;
 
     #region Commented Out Example
     /* Example Methods and Overflow
@@ -58,7 +58,14 @@ public class ButtonHandler : MonoBehaviour
         GameManager.flips += flipRate;
         GameManager.totalFlips += flipRate;
         Debug.Log(GameManager.flips);
+        manage.Fill();
         
+    }
+    public void QuickPointsTestingOnly()
+    {
+        GameManager.flips += 500;
+        GameManager.totalFlips += 500;
+        manage.Fill();
     }
 
     public void ADClick()
