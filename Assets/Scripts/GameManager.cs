@@ -10,26 +10,28 @@ public class GameManager : MonoBehaviour
     public static int totalFlips;
     public static int autoFlips = 0;
     public static int midasFlips = 0;
+    public static int playerHealth = 100;
     #endregion
     #region Float Variables
     public static float flipsPerSecond;
-    float flipsPerSecTimer = 1f;
+    float _flipsPerSecTimer = 1f;
     [Header("Timers")]
-    [SerializeField] float autoFlipTimer = 1f;
-    [SerializeField] float midasFlipTimer = 2f;
-    float startFlip;
-    float endFlip;
-    float spinMax = 5000;
+    [SerializeField] float _autoFlipTimer = 1f;
+    [SerializeField] float _midasFlipTimer = 2f;
+    float _startFlip;
+    float _endFlip;
+    public float spinMax = 5000;
     #endregion
     #region Bool Variables
-    bool initialMidas = false;
+    bool _initialMidas = false;
     #endregion
     #region Text Variables
     [Header("Text Variables")]
     public Text flipText;
     public Text overallText;
     public Text flipsPerSecondText;
-    public Text dangerText; 
+    public Text dangerText;
+    public Text playerHealthText;
     #endregion
     #region Image Variables
     [Header("Spin-O-Meter")]
@@ -43,14 +45,15 @@ public class GameManager : MonoBehaviour
     public List<GameObject> midasFish;
     #endregion
     #region Script Variables
-    private Flipper flipper;
+    private Flipper _flipper;
+    public FightTransition fightTransition;
     #endregion
 
 
     // Start is called before the first frame update
     void Start()
     {
-        flipper = GetComponent<Flipper>();
+        _flipper = GetComponent<Flipper>();
     }
 
     // Update is called once per frame
@@ -59,22 +62,22 @@ public class GameManager : MonoBehaviour
         flipText.text = flips.ToString();
         overallText.text = totalFlips.ToString();
 
-        if (flipsPerSecTimer >= 0.95f)
+        if (_flipsPerSecTimer >= 0.95f)
         {
             StartCoroutine(FlipsPerSec());
         }
-        else if (flipsPerSecTimer <= 0f)
+        else if (_flipsPerSecTimer <= 0f)
         {
-            flipsPerSecTimer = 1f;
+            _flipsPerSecTimer = 1f;
         }
 
-        flipsPerSecTimer -= Time.deltaTime;
+        _flipsPerSecTimer -= Time.deltaTime;
 
         if (autoFlips >= 1)
         {
-            autoFlipTimer -= Time.deltaTime;
+            _autoFlipTimer -= Time.deltaTime;
 
-            if (autoFlipTimer <= 0)
+            if (_autoFlipTimer <= 0)
             {
                 StartCoroutine(AutoFlip());
             }
@@ -82,9 +85,9 @@ public class GameManager : MonoBehaviour
 
         if (midasFlips >= 1)
         {
-            midasFlipTimer -= Time.deltaTime;
+            _midasFlipTimer -= Time.deltaTime;
 
-            if (midasFlipTimer <= 0)
+            if (_midasFlipTimer <= 0)
             {
                 StartCoroutine(MidasAutoFlips());
             }
@@ -95,18 +98,18 @@ public class GameManager : MonoBehaviour
 
     IEnumerator FlipsPerSec()
     {
-        startFlip = totalFlips;
+        _startFlip = totalFlips;
 
-        while (flipsPerSecTimer > 0)
+        while (_flipsPerSecTimer > 0)
         {
             flipsPerSecondText.text = flipsPerSecond.ToString();
 
             yield return null;
         }
 
-        endFlip = totalFlips;
+        _endFlip = totalFlips;
 
-        flipsPerSecond = endFlip - startFlip;
+        flipsPerSecond = _endFlip - _startFlip;
 
         yield return null;
     }
@@ -116,7 +119,7 @@ public class GameManager : MonoBehaviour
         flips += autoFlips;
         Fill();
         totalFlips += autoFlips;
-        autoFlipTimer = 1f;
+        _autoFlipTimer = 1f;
         yield return null;
     }
 
@@ -124,7 +127,7 @@ public class GameManager : MonoBehaviour
     {
         flips += midasFlips;
         totalFlips += midasFlips;
-        midasFlipTimer = 2f;
+        _midasFlipTimer = 2f;
         yield return null;
     }    
 
@@ -132,12 +135,18 @@ public class GameManager : MonoBehaviour
     {
         fillImage.fillAmount = Mathf.Clamp01(totalFlips / spinMax);
         fillImage.color = fillGradient.Evaluate(fillImage.fillAmount);
+
+        if (totalFlips >= spinMax)
+        {
+            fightTransition.StartTransition();
+        }
+
     }
 
     public void MidasUpgrade()
     {
         
-        if (!initialMidas)
+        if (!_initialMidas)
         {
             for (int i = 0; i < fishPanels.Length; i++)
             {
@@ -148,8 +157,8 @@ public class GameManager : MonoBehaviour
                 
             }
 
-            flipper.MidasFish();
-            initialMidas = true;
+            _flipper.MidasFish();
+            _initialMidas = true;
             midasFlips += 4;
         }
         else

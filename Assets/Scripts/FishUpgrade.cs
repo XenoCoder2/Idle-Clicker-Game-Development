@@ -67,7 +67,7 @@ public class FishUpgrade : MonoBehaviour
                 if (GameManager.flips >= upgradeCosts[3])
                 {
                     GameManager.flips -= upgradeCosts[3];
-
+                    CombatManager.clickForce++;
 
                     upgradeCosts[3] *= 2;
                     upgradeCostText[3].text = "Anchovy Arson - " + upgradeCosts[3] + " Flips";
