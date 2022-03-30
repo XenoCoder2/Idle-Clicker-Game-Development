@@ -5,11 +5,14 @@ using UnityEngine.UI;
 
 public class CombatManager : MonoBehaviour
 {
+    #region Variables
     public static int clickForce = 1;
     public static int opponentClickForce = 1;
     public static bool playerWin;
+    public static int oldChumCount = 0;
     [SerializeField] public static int clickFight = 50;
     private float _enemyClickTimer = 0.5f;
+    private float _oldChumIncreaseTimer = 20f;
     public float startCountdown = 3f;
     public GameObject clickPanel;
     public bool hasStarted = false;
@@ -18,10 +21,15 @@ public class CombatManager : MonoBehaviour
     public Text pClickforceText;
     public Text eClickforceText;
     [SerializeField] private Text _clickFightText;
-     public Text infoText;
+    public Text infoText;
+    public Text fishName;
+    public Image enemyFish;
+    public Sprite[] enemyFishSprites;
+    public string[] enemyNames;
     [SerializeField] private Slider slide;
     public Animator pAnim;
     public Animator eAnim;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -58,16 +66,33 @@ public class CombatManager : MonoBehaviour
             if (_enemyClickTimer <= 0 && clickFight != 0 && clickFight != 100)
             {
                 clickFight += opponentClickForce;
+                if (clickFight > 100)
+                {
+                    clickFight = 100;
+                }
                 _enemyClickTimer = 0.5f;
             }
         }
 
         _clickFightText.text = clickFight.ToString();
         slide.value = clickFight;
-       
+
+        if (oldChumCount >= 1 && clickFight != 0 && clickFight != 100)
+        {
+            _oldChumIncreaseTimer -= Time.deltaTime;
+
+            if (_oldChumIncreaseTimer <= 0)
+            {
+                clickForce += oldChumCount;
+                _oldChumIncreaseTimer = 20f;
+                pClickforceText.text = "Clickforce: " + clickForce.ToString();
+            }
+        }
+
 
         if (clickFight >= 100)
         {
+            clickPanel.SetActive(false);
             pAnim.SetBool("Defeated", true);
             eAnim.SetBool("IsVictorious", true);
             infoText.text = "You were voided! -50 HP";
@@ -81,12 +106,13 @@ public class CombatManager : MonoBehaviour
         }
         else if (clickFight <= 0)
         {
+            clickPanel.SetActive(false);
             eAnim.SetBool("Defeated", true);
             pAnim.SetBool("IsVictorious", true);
             infoText.text = "Anomaly Defeated!";
             infoText.gameObject.SetActive(true);
             playerWin = true;
-           
+            opponentClickForce += 2;
             fightEnd.ChangeClickValues();
 
         }
@@ -103,6 +129,12 @@ public class CombatManager : MonoBehaviour
         if (clickFight != 0 && clickFight != 100)
         {
             clickFight -= clickForce;
+            if (clickFight < 0)
+            {
+                clickFight = 0;
+            }
         }
     }
+
+    
 }

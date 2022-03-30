@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FightEnder : MonoBehaviour
 {
     public GameManager gameManage;
     public CombatManager combatManage;
     public GameObject flashPanel;
+    public Button fishFlipper;
 
     public void StartTransition()
     {
@@ -14,23 +16,11 @@ public class FightEnder : MonoBehaviour
         gameManage.playerHealthText.text = GameManager.playerHealth.ToString() + " / 100";
     }
 
-    
-
     public void ResetFightValues()
     {
         CombatManager.clickFight = 50;
-        if (CombatManager.playerWin)
-        {
-            combatManage.eAnim.SetBool("Defeated", false);
-            combatManage.pAnim.SetBool("IsVictorious", false);
-        }
-        else
-        {
-            combatManage.pAnim.SetBool("Defeated", false);
-            combatManage.eAnim.SetBool("IsVictorious", false);
-        }
+        
         combatManage.infoText.text = "Click anywhere Rapidly to beat the Anomalous Fish!";
-
 
         combatManage.pClickforceText.text = "Clickforce: " + CombatManager.clickForce;
         combatManage.eClickforceText.text = "Clickforce: " + CombatManager.opponentClickForce;
@@ -46,6 +36,8 @@ public class FightEnder : MonoBehaviour
         Flipper.flipRotate = 0.005f;
         gameManage.Fill();
         combatManage.gameObject.SetActive(false);
+        fishFlipper.interactable = true;
+        gameManage.resetStart();
     }
 
 }

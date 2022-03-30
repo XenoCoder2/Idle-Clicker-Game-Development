@@ -7,11 +7,14 @@ public class Transition : MonoBehaviour
     public GameObject warningPanel;
     public GameObject flashPanel;
     public FightTransition fightTransition;
+    public FightEnder fightEnd;
+    public CombatManager combatManage;
 
     public void WarningFinish()
     {
         flashPanel.SetActive(true);
         warningPanel.SetActive(false);
+        fightEnd.ResetFightValues();
     }
 
     public void ScreenTransition()
@@ -30,5 +33,9 @@ public class Transition : MonoBehaviour
     public void FlashFinish()
     {
         flashPanel.SetActive(false);
+        combatManage.eAnim.SetBool("Defeated", false);
+        combatManage.pAnim.SetBool("IsVictorious", false);
+        combatManage.pAnim.SetBool("Defeated", false);
+        combatManage.eAnim.SetBool("IsVictorious", false);
     }
 }

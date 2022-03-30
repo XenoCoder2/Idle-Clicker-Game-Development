@@ -47,7 +47,7 @@ public class FishUpgrade : MonoBehaviour
                 if (GameManager.flips >= upgradeCosts[1])
                 {
                     GameManager.flips -= upgradeCosts[1];
-                    GameManager.autoFlips++; 
+                    GameManager.autoFlips += 2; 
 
                     upgradeCosts[1] *= 2;
                     upgradeCostText[1].text = "NanoFlipper - " + upgradeCosts[1] + " Flips";
@@ -77,7 +77,7 @@ public class FishUpgrade : MonoBehaviour
                 if (GameManager.flips >= upgradeCosts[4])
                 {
                     GameManager.flips -= upgradeCosts[4];
-
+                    GameManager.playerHealthRegen++; 
 
                     upgradeCosts[4] *= 2;
                     upgradeCostText[4].text = "Herring Waterfall - " + upgradeCosts[4] + " Flips";
@@ -87,6 +87,7 @@ public class FishUpgrade : MonoBehaviour
                 if (GameManager.flips >= upgradeCosts[5])
                 {
                     GameManager.flips -= upgradeCosts[5];
+                    CombatManager.oldChumCount++;
 
 
                     upgradeCosts[5] *= 2;

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static int autoFlips = 0;
     public static int midasFlips = 0;
     public static int playerHealth = 100;
+    public static int playerHealthRegen = 0;
     #endregion
     #region Float Variables
     public static float flipsPerSecond;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     #endregion
     #region Bool Variables
     bool _initialMidas = false;
+    bool _startFight = false;
     #endregion
     #region Text Variables
     [Header("Text Variables")]
@@ -69,6 +71,11 @@ public class GameManager : MonoBehaviour
         else if (_flipsPerSecTimer <= 0f)
         {
             _flipsPerSecTimer = 1f;
+
+            if (playerHealthRegen >= 1)
+            {
+                StartCoroutine(HealthRegen());
+            }
         }
 
         _flipsPerSecTimer -= Time.deltaTime;
@@ -92,7 +99,6 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(MidasAutoFlips());
             }
         }
-
 
     }
 
@@ -131,16 +137,73 @@ public class GameManager : MonoBehaviour
         yield return null;
     }    
 
+    IEnumerator HealthRegen()
+    {
+        if (playerHealth < 100)
+        {
+            playerHealth += playerHealthRegen;
+            playerHealthText.text = playerHealth.ToString() + " / 100";
+        }
+        
+        yield return null;
+    }
+
     public void Fill()
     {
+        
         fillImage.fillAmount = Mathf.Clamp01(totalFlips / spinMax);
         fillImage.color = fillGradient.Evaluate(fillImage.fillAmount);
 
-        if (totalFlips >= spinMax)
+        float flipStatement = ((totalFlips / spinMax) * 100) / 10;
+        int newsStatement = Mathf.RoundToInt(flipStatement) * 10;
+
+        switch (newsStatement)
         {
-            fightTransition.StartTransition();
+            case 0:
+                NewsEvents.news = NewsStates.Calm;
+                break;
+            case 10:
+                NewsEvents.news = NewsStates.Curious;
+                break;
+            case 20:
+                NewsEvents.news = NewsStates.RandomFact1;
+                break;
+            case 30:
+                NewsEvents.news = NewsStates.Scientific;
+                break;
+            case 40:
+                NewsEvents.news = NewsStates.Foreboding;
+                break;
+            case 50:
+                NewsEvents.news = NewsStates.WeatherReport;
+                break;
+            case 60:
+                NewsEvents.news = NewsStates.RandomFact2;
+                break;
+            case 70:
+                NewsEvents.news = NewsStates.Fishy;
+                break;
+            case 80:
+                NewsEvents.news = NewsStates.Fishmageddon;
+                break;
+            case 90:
+                NewsEvents.news = NewsStates.ItHasEmerged;
+                break;
+            default:
+                break;
         }
 
+        if (totalFlips >= spinMax && _startFight == false)
+        {
+            fightTransition.StartTransition();
+            _startFight = true;
+        }
+
+    }
+
+    public void resetStart()
+    {
+        _startFight = false;
     }
 
     public void MidasUpgrade()
@@ -159,7 +222,7 @@ public class GameManager : MonoBehaviour
 
             _flipper.MidasFish();
             _initialMidas = true;
-            midasFlips += 4;
+            midasFlips += 12;
         }
         else
         {
