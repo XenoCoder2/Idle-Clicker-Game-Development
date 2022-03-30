@@ -9,6 +9,7 @@ public class Transition : MonoBehaviour
     public FightTransition fightTransition;
     public FightEnder fightEnd;
     public CombatManager combatManage;
+    public GameManager gameManage;
 
     public void WarningFinish()
     {
@@ -19,15 +20,18 @@ public class Transition : MonoBehaviour
 
     public void ScreenTransition()
     {
-        if (!FightTransition.inFight)
+        if (GameStateManager.gameState != GameStates.GameOver)
         {
-            FightTransition.inFight = true;
+            if (!FightTransition.inFight)
+            {
+                FightTransition.inFight = true;
+            }
+            else
+            {
+                FightTransition.inFight = false;
+            }
         }
-        else
-        {
-            FightTransition.inFight = false;
-        }
-        
+       
     }    
 
     public void FlashFinish()

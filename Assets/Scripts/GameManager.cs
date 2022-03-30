@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static int midasFlips = 0;
     public static int playerHealth = 100;
     public static int playerHealthRegen = 0;
+    public static int fillFlips;
     #endregion
     #region Float Variables
     public static float flipsPerSecond;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     [Header("Timers")]
     [SerializeField] float _autoFlipTimer = 1f;
     [SerializeField] float _midasFlipTimer = 2f;
+    float _healTimer = 20f;
     float _startFlip;
     float _endFlip;
     public float spinMax = 5000;
@@ -49,6 +51,7 @@ public class GameManager : MonoBehaviour
     #region Script Variables
     private Flipper _flipper;
     public FightTransition fightTransition;
+    public GameStateManager gameStateManage;
     #endregion
 
 
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _flipper = GetComponent<Flipper>();
+        NewsEvents.newsNumber = 0;
     }
 
     // Update is called once per frame
@@ -72,10 +76,6 @@ public class GameManager : MonoBehaviour
         {
             _flipsPerSecTimer = 1f;
 
-            if (playerHealthRegen >= 1)
-            {
-                StartCoroutine(HealthRegen());
-            }
         }
 
         _flipsPerSecTimer -= Time.deltaTime;
@@ -97,6 +97,17 @@ public class GameManager : MonoBehaviour
             if (_midasFlipTimer <= 0)
             {
                 StartCoroutine(MidasAutoFlips());
+            }
+        }
+
+        if (playerHealthRegen >= 1)
+        {
+            _healTimer -= Time.deltaTime;
+
+            if (_healTimer <= 0)
+            {
+                StartCoroutine(HealthRegen());
+                _healTimer = 20f;
             }
         }
 
@@ -123,6 +134,7 @@ public class GameManager : MonoBehaviour
     IEnumerator AutoFlip()
     {
         flips += autoFlips;
+        fillFlips += autoFlips;
         Fill();
         totalFlips += autoFlips;
         _autoFlipTimer = 1f;
@@ -132,6 +144,7 @@ public class GameManager : MonoBehaviour
     IEnumerator MidasAutoFlips()
     {
         flips += midasFlips;
+        fillFlips += midasFlips;
         totalFlips += midasFlips;
         _midasFlipTimer = 2f;
         yield return null;
@@ -151,10 +164,10 @@ public class GameManager : MonoBehaviour
     public void Fill()
     {
         
-        fillImage.fillAmount = Mathf.Clamp01(totalFlips / spinMax);
+        fillImage.fillAmount = Mathf.Clamp01(fillFlips / spinMax);
         fillImage.color = fillGradient.Evaluate(fillImage.fillAmount);
 
-        float flipStatement = ((totalFlips / spinMax) * 100) / 10;
+        float flipStatement = ((fillFlips / spinMax) * 100) / 10;
         int newsStatement = Mathf.RoundToInt(flipStatement) * 10;
 
         switch (newsStatement)
@@ -193,7 +206,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (totalFlips >= spinMax && _startFight == false)
+        if (fillFlips >= spinMax && _startFight == false)
         {
             fightTransition.StartTransition();
             _startFight = true;
@@ -201,7 +214,14 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void resetStart()
+    public void GameOver()
+    {
+        GameStateManager.gameState = GameStates.GameOver;
+        gameStateManage.SwitchStates();
+
+    }
+
+    public void ResetStart()
     {
         _startFight = false;
     }
@@ -226,7 +246,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            midasFlips += 4;
+            midasFlips += 12;
         }
     }
 

@@ -8,6 +8,7 @@ public class ButtonHandler : MonoBehaviour
 {
     public static int flipRate = 1;
     public GameManager manage;
+    public GameStateManager gameStateManager;
 
     #region Commented Out Example
     /* Example Methods and Overflow
@@ -56,18 +57,24 @@ public class ButtonHandler : MonoBehaviour
     public void Click()
     {
         GameManager.flips += flipRate;
+        GameManager.fillFlips += flipRate;
         GameManager.totalFlips += flipRate;
         Debug.Log(GameManager.flips);
         manage.Fill();
         
     }
-    public void QuickPointsTestingOnly()
-    {
-        GameManager.flips += 500;
-        GameManager.totalFlips += 500;
-        manage.Fill();
-    }
 
+    private void Update()
+    {
+        //Use this only for testing
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GameManager.flips += 500;
+            GameManager.fillFlips += 500;
+            GameManager.totalFlips += 500;
+            manage.Fill();
+        }
+    }
     public void ADClick()
     {
         //Opens the AD in the default browser | shhh. 
@@ -76,15 +83,31 @@ public class ButtonHandler : MonoBehaviour
 
     public void Quit()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
         Application.Quit();
     }
 
     public void Restart()
     {
-        SceneManager.LoadScene(0);
+        GameManager.flips = 0;
+        GameManager.fillFlips = 0;
+        GameManager.totalFlips = 0;
+        GameManager.midasFlips = 0;
+        GameManager.playerHealth = 100;
+        GameManager.autoFlips = 0;
+        CombatManager.clickForce = 1;
+        CombatManager.opponentClickForce = 1;
+        CombatManager.oldChumCount = 0;
+        GameStateManager.gameState = GameStates.PreGame;
+        flipRate = 1;
+        manage.spinMax = 5000f;
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-   
+
+    public void StartGame()
+    {
+        GameStateManager.gameState = GameStates.MainGame;
+        gameStateManager.SwitchStates();
+    }
+
 }

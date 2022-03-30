@@ -32,12 +32,19 @@ public class FightEnder : MonoBehaviour
 
     public void ChangeClickValues()
     {
+        if (GameManager.playerHealth <= 0)
+        {
+            gameManage.GameOver();
+        }
+
+        NewsEvents.newsNumber = Random.Range(0, 2);
         gameManage.spinMax *= 2;
+        GameManager.fillFlips = 0;
         Flipper.flipRotate = 0.005f;
         gameManage.Fill();
         combatManage.gameObject.SetActive(false);
         fishFlipper.interactable = true;
-        gameManage.resetStart();
+        gameManage.ResetStart();
     }
 
 }

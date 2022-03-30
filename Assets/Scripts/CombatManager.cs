@@ -10,6 +10,7 @@ public class CombatManager : MonoBehaviour
     public static int opponentClickForce = 1;
     public static bool playerWin;
     public static int oldChumCount = 0;
+    public int basePlayerClickForce;
     [SerializeField] public static int clickFight = 50;
     private float _enemyClickTimer = 0.5f;
     private float _oldChumIncreaseTimer = 20f;
@@ -47,6 +48,7 @@ public class CombatManager : MonoBehaviour
     {
         if (!hasStarted && startCountdown > 0)
         {
+            basePlayerClickForce = clickForce;
             startCountdown -= Time.deltaTime;
             countdownText.text = Mathf.RoundToInt(startCountdown).ToString();
 
@@ -99,7 +101,7 @@ public class CombatManager : MonoBehaviour
             infoText.gameObject.SetActive(true);
             GameManager.playerHealth -= 50;
             playerWin = false;
-            
+            clickForce = basePlayerClickForce;
             fightEnd.ChangeClickValues();
 
 
@@ -112,7 +114,8 @@ public class CombatManager : MonoBehaviour
             infoText.text = "Anomaly Defeated!";
             infoText.gameObject.SetActive(true);
             playerWin = true;
-            opponentClickForce += 2;
+            opponentClickForce += 3;
+            clickForce = basePlayerClickForce;
             fightEnd.ChangeClickValues();
 
         }

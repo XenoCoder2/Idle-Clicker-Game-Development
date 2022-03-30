@@ -6,10 +6,13 @@ using UnityEngine.UI;
 public class FishUpgrade : MonoBehaviour
 {
     public Text[] upgradeCostText;
+    public Text[] ownershipText;
+    private int[] _ownership = new int[5];
     public GameManager gameManage;
     #region Upgrade Costs
     public int[] upgradeCosts;
     #endregion
+    public Text clickForceText;
     public Button[] upgradeButtons;
     public Upgrades fishUpgrade;
 
@@ -39,6 +42,9 @@ public class FishUpgrade : MonoBehaviour
                     GameManager.flips -= upgradeCosts[0];
                     ButtonHandler.flipRate++;
                     upgradeCosts[0] *= 2;
+
+                    int ownerShip = ButtonHandler.flipRate - 1;
+                    ownershipText[0].text = "Owned: " + ownerShip.ToString();
                     upgradeCostText[0].text = "Quantum Fish Flipper - " + upgradeCosts[0] + " Flips";
                 }
 
@@ -47,8 +53,10 @@ public class FishUpgrade : MonoBehaviour
                 if (GameManager.flips >= upgradeCosts[1])
                 {
                     GameManager.flips -= upgradeCosts[1];
-                    GameManager.autoFlips += 2; 
+                    GameManager.autoFlips += 2;
+                    _ownership[0]++;
 
+                    ownershipText[1].text = "Owned: " + _ownership[0].ToString();
                     upgradeCosts[1] *= 2;
                     upgradeCostText[1].text = "NanoFlipper - " + upgradeCosts[1] + " Flips";
                 }
@@ -58,7 +66,9 @@ public class FishUpgrade : MonoBehaviour
                 {
                     GameManager.flips -= upgradeCosts[2];
                     gameManage.MidasUpgrade();
+                    _ownership[1]++;
 
+                    ownershipText[2].text = "Owned: " + _ownership[1].ToString();
                     upgradeCosts[2] *= 2;
                     upgradeCostText[2].text = "Midas Trout - " + upgradeCosts[2] + " Flips";
                 }
@@ -68,6 +78,11 @@ public class FishUpgrade : MonoBehaviour
                 {
                     GameManager.flips -= upgradeCosts[3];
                     CombatManager.clickForce++;
+                    _ownership[2]++;
+
+                    clickForceText.text = CombatManager.clickForce.ToString();
+
+                    ownershipText[3].text = "Owned: " + _ownership[2].ToString();
 
                     upgradeCosts[3] *= 2;
                     upgradeCostText[3].text = "Anchovy Arson - " + upgradeCosts[3] + " Flips";
@@ -77,7 +92,10 @@ public class FishUpgrade : MonoBehaviour
                 if (GameManager.flips >= upgradeCosts[4])
                 {
                     GameManager.flips -= upgradeCosts[4];
-                    GameManager.playerHealthRegen++; 
+                    GameManager.playerHealthRegen++;
+                    _ownership[3]++;
+
+                    ownershipText[4].text = "Owned: " + _ownership[3].ToString();
 
                     upgradeCosts[4] *= 2;
                     upgradeCostText[4].text = "Herring Waterfall - " + upgradeCosts[4] + " Flips";
@@ -88,6 +106,9 @@ public class FishUpgrade : MonoBehaviour
                 {
                     GameManager.flips -= upgradeCosts[5];
                     CombatManager.oldChumCount++;
+                    _ownership[4]++;
+
+                    ownershipText[5].text = "Owned: " + _ownership[4].ToString();
 
 
                     upgradeCosts[5] *= 2;
