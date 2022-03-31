@@ -13,7 +13,7 @@ public class CombatManager : MonoBehaviour
     public int basePlayerClickForce;
     [SerializeField] public static int clickFight = 50;
     private float _enemyClickTimer = 0.5f;
-    private float _oldChumIncreaseTimer = 20f;
+    public float oldChumIncreaseTimer = 20f;
     public float startCountdown = 3f;
     public GameObject clickPanel;
     public bool hasStarted = false;
@@ -23,10 +23,11 @@ public class CombatManager : MonoBehaviour
     public Text eClickforceText;
     [SerializeField] private Text _clickFightText;
     public Text infoText;
-    public Text fishName;
     public Image enemyFish;
     public Sprite[] enemyFishSprites;
     public string[] enemyNames;
+    public Text enemyFishName;
+    public GameObject oldChum;
     [SerializeField] private Slider slide;
     public Animator pAnim;
     public Animator eAnim;
@@ -81,13 +82,11 @@ public class CombatManager : MonoBehaviour
 
         if (oldChumCount >= 1 && clickFight != 0 && clickFight != 100)
         {
-            _oldChumIncreaseTimer -= Time.deltaTime;
+            oldChumIncreaseTimer -= Time.deltaTime;
 
-            if (_oldChumIncreaseTimer <= 0)
+            if (oldChumIncreaseTimer <= 0)
             {
-                clickForce += oldChumCount;
-                _oldChumIncreaseTimer = 20f;
-                pClickforceText.text = "Clickforce: " + clickForce.ToString();
+                oldChum.SetActive(true);
             }
         }
 
@@ -139,5 +138,4 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    
 }

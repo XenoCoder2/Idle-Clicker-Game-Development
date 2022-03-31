@@ -21,7 +21,10 @@ public class FightEnder : MonoBehaviour
         CombatManager.clickFight = 50;
         
         combatManage.infoText.text = "Click anywhere Rapidly to beat the Anomalous Fish!";
-
+        if (CombatManager.oldChumCount >= 1)
+        {
+            combatManage.oldChumIncreaseTimer = 20f;
+        }
         combatManage.pClickforceText.text = "Clickforce: " + CombatManager.clickForce;
         combatManage.eClickforceText.text = "Clickforce: " + CombatManager.opponentClickForce;
         combatManage.hasStarted = false;

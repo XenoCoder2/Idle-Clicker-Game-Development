@@ -24,6 +24,9 @@ public class Transition : MonoBehaviour
         {
             if (!FightTransition.inFight)
             {
+                int enemyType = Random.Range(0, combatManage.enemyFishSprites.Length);
+                combatManage.enemyFish.sprite = combatManage.enemyFishSprites[enemyType];
+                combatManage.enemyFishName.text = combatManage.enemyNames[enemyType];
                 FightTransition.inFight = true;
             }
             else

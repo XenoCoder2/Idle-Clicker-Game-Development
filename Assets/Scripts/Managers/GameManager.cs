@@ -37,6 +37,10 @@ public class GameManager : MonoBehaviour
     public Text dangerText;
     public Text playerHealthText;
     #endregion
+    #region GameObject Variables
+    public GameObject herringWaterfall;
+    public GameObject anchovyArson;
+    #endregion
     #region Image Variables
     [Header("Spin-O-Meter")]
     public Gradient fillGradient;
@@ -102,8 +106,9 @@ public class GameManager : MonoBehaviour
 
         if (playerHealthRegen >= 1)
         {
+            
             _healTimer -= Time.deltaTime;
-
+           
             if (_healTimer <= 0)
             {
                 StartCoroutine(HealthRegen());
@@ -135,8 +140,8 @@ public class GameManager : MonoBehaviour
     {
         flips += autoFlips;
         fillFlips += autoFlips;
-        Fill();
         totalFlips += autoFlips;
+        Fill();
         _autoFlipTimer = 1f;
         yield return null;
     }
@@ -146,6 +151,7 @@ public class GameManager : MonoBehaviour
         flips += midasFlips;
         fillFlips += midasFlips;
         totalFlips += midasFlips;
+        Fill();
         _midasFlipTimer = 2f;
         yield return null;
     }    
@@ -154,8 +160,7 @@ public class GameManager : MonoBehaviour
     {
         if (playerHealth < 100)
         {
-            playerHealth += playerHealthRegen;
-            playerHealthText.text = playerHealth.ToString() + " / 100";
+            herringWaterfall.SetActive(true);
         }
         
         yield return null;
