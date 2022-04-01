@@ -925,14 +925,21 @@ MonoBehaviour:
   basePlayerClickForce: 0
   oldChumIncreaseTimer: 20
   startCountdown: 3
-  clickPanel: {fileID: 171117244}
   hasStarted: 0
-  fightEnd: {fileID: 559190508}
+  enemyNames:
+  - Void Flounder
+  - Void Mackarel
+  - Void Carp
+  - Void Catfish
+  - Void Snapper
+  clickPanel: {fileID: 171117244}
+  oldChum: {fileID: 1311115746}
   countdownText: {fileID: 1907100517}
   pClickforceText: {fileID: 525879387}
   eClickforceText: {fileID: 777904480}
   _clickFightText: {fileID: 1641468361}
   infoText: {fileID: 1948466580}
+  enemyFishName: {fileID: 902596273}
   enemyFish: {fileID: 429120868}
   enemyFishSprites:
   - {fileID: 21300000, guid: be14c0729d177da4fa629815cdfdc441, type: 3}
@@ -940,17 +947,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a94c865630f43f14b98f1d81df958358, type: 3}
   - {fileID: 21300000, guid: e895e715518af3246ab568adcc1de28e, type: 3}
   - {fileID: 21300000, guid: 701db9c32dd02054ca9b27dfd0bb5b48, type: 3}
-  enemyNames:
-  - Void Flounder
-  - Void Mackarel
-  - Void Carp
-  - Void Catfish
-  - Void Snapper
-  enemyFishName: {fileID: 902596273}
-  oldChum: {fileID: 1311115746}
   slide: {fileID: 2027696278}
   pAnim: {fileID: 1105893582}
   eAnim: {fileID: 429120870}
+  fightEnd: {fileID: 559190508}
 --- !u!1 &311808039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,9 +1760,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManage: {fileID: 1151292404}
   combatManage: {fileID: 274458465}
+  fightTransition: {fileID: 0}
   flashPanel: {fileID: 362511180}
   fishFlipper: {fileID: 586057739}
-  fightTransition: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2292,12 +2292,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   warningPanel: {fileID: 1990090479}
-  fishFlipper: {fileID: 586057739}
   flashPanel: {fileID: 362511180}
   combatPanel: {fileID: 592089261}
   clickerPanel: {fileID: 921963443}
   combatManager: {fileID: 274458463}
   clickManager: {fileID: 1151292401}
+  fishFlipper: {fileID: 586057739}
 --- !u!114 &559190508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2312,9 +2312,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManage: {fileID: 1151292404}
   combatManage: {fileID: 274458465}
+  fightTransition: {fileID: 559190507}
   flashPanel: {fileID: 362511180}
   fishFlipper: {fileID: 586057739}
-  fightTransition: {fileID: 559190507}
 --- !u!1 &560801660
 GameObject:
   m_ObjectHideFlags: 0
@@ -5881,9 +5881,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManage: {fileID: 1151292404}
   combatManage: {fileID: 274458465}
+  fightTransition: {fileID: 0}
   flashPanel: {fileID: 362511180}
   fishFlipper: {fileID: 586057739}
-  fightTransition: {fileID: 0}
 --- !u!1 &1129629482
 GameObject:
   m_ObjectHideFlags: 0
@@ -6191,10 +6191,10 @@ MonoBehaviour:
   - {fileID: 1721248376}
   - {fileID: 560801662}
   - {fileID: 848841793}
-  ownership: 0000000000000000000000000000000000000000
-  gameManage: {fileID: 1151292404}
-  upgradeCosts: 1e0000002c010000e8030000c4090000ac0d00007c150000
   clickForceText: {fileID: 843709991}
+  ownership: 0000000000000000000000000000000000000000
+  upgradeCosts: 1e0000002c010000e8030000c4090000ac0d00007c150000
+  gameManage: {fileID: 1151292404}
   upgradeButtons:
   - {fileID: 193937814}
   - {fileID: 983602284}

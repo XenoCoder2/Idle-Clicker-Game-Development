@@ -13,7 +13,7 @@ public class IncreaseAnimMethods : MonoBehaviour
     public void AnchovyIncrease()
     {
         //Increase clickforce by the amount of anchovyArson upgrades owned.
-        CombatManager.clickForce += fishUpgrade.ownership[2];
+        CombatManager.clickForce++;
         //Update the clickForceText to reflect this change.
         fishUpgrade.clickForceText.text = CombatManager.clickForce.ToString();
     }

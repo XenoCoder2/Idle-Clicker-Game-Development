@@ -187,7 +187,7 @@ public class CombatManager : MonoBehaviour
             //Change the playerWin bool to true to show they won the match.
             playerWin = true;
             //Increase the opponent's clickforce for the next time to player is in combat.
-            opponentClickForce += 3;
+            opponentClickForce += 2;
             //Set the clickforce back to the basePlayerClickForce (Used to remove the effects of the Old Chum powerup).
             clickForce = basePlayerClickForce;
             //Run the ChangeClickValues method from the FightEnder script.
